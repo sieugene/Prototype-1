@@ -2,8 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerControlScheme
+{
+    Player1, // Controls using WASD
+    Player2  // Controls using Arrow Keys
+}
+
 public class PlayerController : MonoBehaviour
 {
+    public PlayerControlScheme controlScheme = PlayerControlScheme.Player1;
     // Private Variables
     public float currentSpeed = 0.0f;
     private float maxSpeed = 20.0f;
@@ -26,9 +33,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Determine input axes based on the selected control scheme
+        string horizontalAxis = controlScheme == PlayerControlScheme.Player1 ? "Horizontal" : "Horizontal_Arrow";
+        string verticalAxis = controlScheme == PlayerControlScheme.Player1 ? "Vertical" : "Vertical_Arrow";
+
         // This is where we get player input
-        horizontalInput = Input.GetAxis("Horizontal");
-        forwardInput = Input.GetAxis("Vertical");
+        horizontalInput = Input.GetAxis(horizontalAxis);
+        forwardInput = Input.GetAxis(verticalAxis);
 
         // If the forward or backward key is pressed, increase speed
         if (forwardInput != 0)
